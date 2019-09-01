@@ -1,4 +1,4 @@
-# Guloso-Tridimensional
+# Guloso Tridimensional
 
 Se não for guloso, é busca binária na resposta
 
