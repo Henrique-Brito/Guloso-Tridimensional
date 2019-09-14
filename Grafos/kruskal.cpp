@@ -9,7 +9,6 @@
 #define pb push_back
 #define f first
 #define s second
-
 const ll MAX = (ll)3e5 + 10;
 
 vector<pair<int,pair<int,int> > > art;
@@ -29,7 +28,6 @@ void unite(int a, int b){
 }
 
 void kruskal(){
-
 	build();
 	sort(art.begin(), art.end());
 	for( auto e : art ){

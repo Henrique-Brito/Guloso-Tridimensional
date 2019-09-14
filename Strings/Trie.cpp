@@ -5,7 +5,6 @@ class Trie{
 	vector< vector<int> > T;
 	vector<bool> endOfWord;
 	int prox = 1;
-
 public:
 	Trie(int maxNodes, int alphabetSize){ //maxNodes is the maximum amount of letters allowed
 		T = vector< vector<int> >(maxNodes, vector<int>(alphabetSize, 0));
@@ -31,7 +30,6 @@ public:
 			if(T[at][let] == 0) return false;
 			at = T[at][let];
 		}
-
 		return true;
 	}
 };

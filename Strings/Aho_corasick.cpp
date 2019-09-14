@@ -6,11 +6,9 @@
 
 using namespace std;
 
-
 class AhoCorasick{
 
 public:
-
     map< int, string > st_w;
     vector< vector< int > > G, Aut;
     vector< int > F, N;

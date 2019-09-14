@@ -4,14 +4,12 @@
 // Complexidade - O(n*log(n))
 
 const int MAX = (int)1e5+10;
-
 int n;
 vector<int> g[MAX];
 int pai[MAX];
 int sizet[MAX];
 bool rev[MAX];
 int lvl[MAX];
-
 
 int centroid( int u, int p, int size ){
   for( int e : g[u] ) if( e!=p and !rev[e] ){
@@ -21,7 +19,6 @@ int centroid( int u, int p, int size ){
   }
   return u;
 }
-
 int get_size( int u, int p ){
   sizet[u] = 1;
   for( int e : g[u] ) if( e!=p and !rev[e] ){
@@ -29,7 +26,6 @@ int get_size( int u, int p ){
   }
   return sizet[u];
 }
-
 void decomp( int u, int p ){
   get_size(u, u);
   int c = centroid(u, u, sizet[u]);

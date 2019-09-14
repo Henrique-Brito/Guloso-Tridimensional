@@ -39,6 +39,9 @@ namespace seg{
     seg[at] = combina(seg[2*at], seg[2*at +1]);
   }
 
+
+
+
   void propaga(int at, int l, int r){
 		seg[at] += lazy[at]*(r-l+1);
 		if(l != r){

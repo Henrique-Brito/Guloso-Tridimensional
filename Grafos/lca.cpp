@@ -27,10 +27,8 @@ void build(){
   for( int i=0; i<n; i++ ){
     dp[i][0] = i;
   }
-
   t = 0;
   dfs(0, 0);
-
   for( int k=1; k<LOG; k++ ){
     for( int i=0; i<n; i++ ){
       dp[i][k] = dp[dp[i][k-1]][k-1];

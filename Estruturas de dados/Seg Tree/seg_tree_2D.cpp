@@ -19,14 +19,12 @@
 // update - O(log^2(n))
 
 int seg[2*MAX][2*MAX], n;
-
 void build() {
 	for (int x = 2*n; x; x--) for (int y = 2*n; y; y--) {
 		if (x < n) seg[x][y] = seg[2*x][y] + seg[2*x+1][y];
 		if (y < n) seg[x][y] = seg[x][2*y] + seg[x][2*y+1];
 	}
 }
-
 int query(int x1, int y1, int x2, int y2) {
 	int ret = 0, y3 = y1 + n, y4 = y2 + n;
 	for (x1 += n, x2 += n; x1 <= x2; ++x1 /= 2, --x2 /= 2)

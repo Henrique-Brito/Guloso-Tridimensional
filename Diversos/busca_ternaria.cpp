@@ -7,7 +7,6 @@
 // Complexidade - O(log(r-l))
 
 const double eps = 1e-9;
-
 // Com ponto flutuante - max
 double ts( double l, double r ){
 	while( r-l > eps ){
@@ -23,7 +22,6 @@ double ts( double l, double r ){
 	}
 	return f(l);
 }
-
 // Com inteiros - max
 int ts( int l, int r ){
   while( l < r ){

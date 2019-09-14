@@ -12,13 +12,11 @@ vector<int> visited(MAX, 0);
 int id[MAX], comp[MAX];
 
 int tarjan( int v ){
-
   int low = p++;
   id[v] = low;
   visited[v] = 1;
 
   s.push(v);
-
   for( int e : g[v] ){
     if( !visited[e] ){
       low = min(low, tarjan(e));

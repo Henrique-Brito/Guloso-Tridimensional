@@ -4,15 +4,13 @@
 
 // Complexidade - O(n^2*m)
 
-struct Edge
-{
+struct Edge{
     int v, rev;
     ll cap;
     Edge(int v_, ll cap_, int rev_) : v(v_), rev(rev_), cap(cap_) {}
 };
 
-struct Dinic
-{
+struct Dinic{
     vector<vector<Edge> > g;
     vector<int> level;
     queue<int> q;
@@ -21,8 +19,7 @@ struct Dinic
 
     Dinic(int n_) : g(n_), level(n_), n(n_) {}
 
-    void addEdge(int u, int v, ll cap)
-    {
+    void addEdge(int u, int v, ll cap){
         if(u == v) return;
         Edge e(v, cap, int(g[v].size()));
         Edge r(u, 0, int(g[u].size()));
@@ -30,8 +27,7 @@ struct Dinic
         g[v].push_back(r);
     }
 
-    bool buildLevelGraph(int src, int sink)
-    {
+    bool buildLevelGraph(int src, int sink){
         fill(level.begin(), level.end(), -1);
         while(not q.empty()) q.pop();
         level[src] = 0;
@@ -51,8 +47,7 @@ struct Dinic
         return false;
     }
 
-    ll blockingFlow(int u, int sink, ll f)
-    {
+    ll blockingFlow(int u, int sink, ll f){
         if(u == sink or not f) return f;
         ll fu = f;
         for(vector<Edge>::iterator e=g[u].begin();e!=g[u].end();e++)
@@ -70,8 +65,7 @@ struct Dinic
         return f - fu;
     }
 
-    ll maxFlow(int src, int sink)
-    {
+    ll maxFlow(int src, int sink){
         flow = 0;
         while(buildLevelGraph(src, sink))
             flow+= blockingFlow(src, sink, numeric_limits<ll>::max());

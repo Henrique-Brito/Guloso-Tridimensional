@@ -38,6 +38,8 @@ void merge( vector<int>& v1, vector<int>& v2, vector<int>& ret ){
 
 }
 
+
+
 void build(int at=1, int b=0, int e=n-1){
   if( b==e ){
 		tree[at].pb(v[b]);
