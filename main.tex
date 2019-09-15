@@ -1,0 +1,318 @@
+\documentclass[12pt, a4paper, twoside]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{amssymb,amsmath}
+\usepackage{comment}
+\usepackage{datetime}
+\usepackage[pdfusetitle]{hyperref}
+\usepackage[all]{xy}
+\usepackage{graphicx}
+\addtolength{\parskip}{.5\baselineskip}
+
+%aqui comeca o que eu fiz de verdade, o resto veio e eu to com medo de tirar
+\usepackage{listings} %biblioteca pro codigo
+\usepackage{color}    %deixa o codigo colorido bonitinho
+\usepackage[landscape, left=1cm, right=1cm, top=1cm, bottom=2cm]{geometry} %pra deixar a margem do jeito que o brasil gosta
+
+\definecolor{gray}{rgb}{0.4, 0.4, 0.4} %cor pros comentarios
+%\renewcommand{\footnotesize}{\small} %isso eh pra mudar o tamanho da fonte do codigo
+\setlength{\columnseprule}{0.2pt} %barra separando as duas colunas
+\setlength{\columnsep}{15pt} %distancia do texto ate a barra
+
+\lstset{ %opcoes pro codigo
+breaklines=true,
+keywordstyle=\color{blue},
+commentstyle=\color{gray},
+basicstyle=\footnotesize,
+breakatwhitespace=true,
+language=C++,
+%frame=single, % nao sei se gosto disso ou nao
+numbers=none,
+rulecolor=\color{black},
+showstringspaces=false
+stringstyle=\color{blue},
+tabsize=4,
+basicstyle=\ttfamily\footnotesize % fonte
+}
+
+\title{Guloso Tridimensional [UFMG]}
+\author{Caio Caldeira, Henrique Brito, Tomaz Gomes}
+
+
+\begin{document}
+\twocolumn
+\date{} %tira a data
+\maketitle
+
+
+\renewcommand{\contentsname}{Índice} %troca o nome do indice para indice
+\tableofcontents
+
+
+%a partir daqui comeca o conteudo mesmo
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% ESTRUTURAS
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newpage
+
+\section{Estruturas}
+
+\subsection{SegTree}
+\lstinputlisting[firstline=3]{seg_tree_recursiva.cpp}
+
+\newpage
+
+\subsection{SegTree 2D}
+\lstinputlisting[firstline=3]{seg_tree_2D.cpp}
+
+\newpage
+
+\subsection{SegTree Lazy}
+\lstinputlisting[firstline=3]{seg_tree_lazy.cpp}
+
+\newpage
+
+\subsection{SegTree Iterativa}
+\lstinputlisting[firstline=3]{seg_tree_iterativa.cpp}
+
+\newpage
+
+\subsection{Merge Sort Tree}
+\lstinputlisting[firstline=3]{merge_sort_tree.cpp}
+
+\newpage
+
+\subsection{DSU}
+\lstinputlisting[firstline=3]{union_find.cpp}
+
+\newpage
+
+\subsection{DSU Persistente}
+\lstinputlisting[firstline=3]{persistent_union_find.cpp}
+
+\newpage
+
+\subsection{Prefix Matrix}
+\lstinputlisting[firstline=3]{prefix_matrix.cpp}
+
+\newpage
+
+\subsection{Order Statistic Set}
+\lstinputlisting[firstline=3]{order_statistic_set.cpp}
+
+\newpage
+
+\subsection{HLD Aresta}
+\lstinputlisting[firstline=3]{HLD.cpp}
+
+\newpage
+
+\subsection{HLD Vértice}
+\lstinputlisting[firstline=3]{HLD-V.cpp}
+
+\newpage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% GRAFOS
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Grafos}
+
+\subsection{Articulation Points}
+\lstinputlisting[firstline=3]{articulation_points.cpp}
+
+\newpage
+
+\subsection{Bridges}
+\lstinputlisting[firstline=3]{bridges.cpp}
+
+\newpage
+
+\subsection{Centroid}
+\lstinputlisting[firstline=3]{centroid.cpp}
+
+\newpage
+
+\subsection{Dijkstra}
+\lstinputlisting[firstline=3]{dijkstra.cpp}
+
+\newpage
+
+\subsection{Dinic}
+\lstinputlisting[firstline=3]{dinic.cpp}
+
+\newpage
+
+\subsection{Floyd-Warshall}
+\lstinputlisting[firstline=3]{floyd_warshall.cpp}
+
+\newpage
+
+\subsection{Kruskal}
+\lstinputlisting[firstline=3]{kruskal.cpp}
+
+\newpage
+
+\subsection{LCA}
+\lstinputlisting[firstline=3]{lca.cpp}
+
+\newpage
+
+\subsection{Tarjan}
+\lstinputlisting[firstline=3]{tarjan.cpp}
+
+\newpage
+
+\subsection{Topo Sort}
+\lstinputlisting[firstline=3]{topological_sorting.cpp}
+
+\newpage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% MATEMATICA
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Matemática}
+
+\subsection{Crivo de Erastónes}
+\lstinputlisting[firstline=3]{crivo.cpp}
+
+\newpage
+
+\subsection{Exponenciação Rápida}
+\lstinputlisting[firstline=3]{exp_binaria.cpp}
+
+\newpage
+
+\subsection{MDC}
+\lstinputlisting[firstline=3]{mdc.cpp}
+
+\newpage
+
+\subsection{MDC Extendido}
+\lstinputlisting[firstline=3]{mdc_extendido.cpp}
+
+\newpage
+
+\subsection{Miller Rabin}
+\lstinputlisting[firstline=3]{miller_rabin.cpp}
+
+\newpage
+
+\subsection{Pollards Rho}
+\lstinputlisting[firstline=3]{pollards_rho.cpp}
+
+\newpage
+
+\subsection{Totiente}
+\lstinputlisting[firstline=3]{totiente.cpp}
+
+\newpage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% PROBLEMAS
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Problemas}
+
+\subsection{2-SAT}
+\lstinputlisting[firstline=3]{2sat.cpp}
+
+\newpage
+
+\subsection{LIS}
+\lstinputlisting[firstline=3]{lis.cpp}
+
+\newpage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% STRINGS
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{String}
+
+\subsection{Aho Corasick}
+\lstinputlisting[firstline=3]{Aho_corasick.cpp}
+
+\newpage
+
+\subsection{Hashing}
+\lstinputlisting[]{hashing.cpp}
+
+\newpage
+
+\subsection{KMP}
+\lstinputlisting[firstline=3]{kmp.cpp}
+
+\newpage
+
+\subsection{Trie}
+\lstinputlisting[]{Trie.cpp}
+
+\newpage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% GEOMETRIA
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Geometria}
+
+\subsection{Primitivas}
+\lstinputlisting[firstline=3]{primitivas.cpp}
+
+\newpage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% DIVERSOS
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Diversos}
+
+\subsection{Busca Ternária}
+\lstinputlisting[firstline=3]{busca_ternaria.cpp}
+
+\newpage
+
+\subsection{Random Shuffle}
+\lstinputlisting[firstline=3]{RNG.cpp}
+
+\newpage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% EXTRA
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Extra}
+
+\subsection{vimrc}
+\lstinputlisting{vimrc.txt}
+
+\subsection{Makefile}
+\lstinputlisting{makefile}
+
+\newpage
+
+\subsection{Template}
+\lstinputlisting{template.cpp}
+
+\end{document}
