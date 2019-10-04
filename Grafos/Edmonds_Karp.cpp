@@ -9,7 +9,7 @@ const ll LINF = 0x3f3f3f3f3f3f3f3fll;
 
 class EK{
 	private:
-    struct node{
+  struct node{
 		int v, r;
 		ll c;
 		node( int _v, int _r, ll _c ){
@@ -23,7 +23,7 @@ class EK{
 	EK( int _n ){
 	    n = _n;
 	    g.resize(n);
-    }
+  }
 
 	void add_edge( int a, int b, ll c ){
 		g[a].push_back(node(b, (int)g[b].size(), c));
@@ -39,8 +39,6 @@ class EK{
 		parent[s] = {-2, -2};
 
 		while( q.size() ){
-
-
 			int u = q.front().first;
 			ll flow = q.front().second;
 			q.pop();
@@ -62,25 +60,18 @@ class EK{
 	}
 
 	ll max_flow( int s, int t ){
-
 		vector<pair<int, int> > parent;
 		ll flow=0, add;
 
 		while( (add = bfs(s, t, parent)) ){
-
 			flow += add;
 			int at=t;
-
 			while( at != s ){
-
 				pair<int, int> p = parent[at];
-
 				int u  = g[p.first][p.second].v;
 				int id = g[p.first][p.second].r;
-
 				g[p.first][p.second].c -= add;
 				g[u][id].c += add;
-
 				at = p.first;
 			}
 			parent.clear();
@@ -88,5 +79,4 @@ class EK{
 
 		return flow;
 	}
-
 };
