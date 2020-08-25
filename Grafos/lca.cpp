@@ -20,10 +20,10 @@ struct Tree{
 		in[u] = t++;
   		for( int e : g[u] ){
 			if( e == p ) continue;
-    		dp[e][0] = u;
-    		get_parent(e, u);
-  		}
-  		out[u] = t;
+			dp[e][0] = u;
+			get_parent(e, u);
+		}
+		out[u] = t;
 	}
 
 	void get_dt( int u=0, int p=0, int d=0 ){
@@ -52,10 +52,10 @@ struct Tree{
 		get_dt();
 
 		for( int k=1; k<log; k++ ){
-    		for( int i=0; i<n; i++ ){
-      			dp[i][k] = dp[dp[i][k-1]][k-1];
-    		}
-  		}
+			for( int i=0; i<n; i++ ){
+				dp[i][k] = dp[dp[i][k-1]][k-1];
+			}
+		}
 	}
 
 	bool anc( int p, int f ){
@@ -64,17 +64,17 @@ struct Tree{
 
 	int lca( int u, int v ){
   		if( anc(u, v) ){
-    		return u;
+			return u;
   		}
   		if( anc(v, u) ){
-    		return v;
+			return v;
   		}
 
   		for( int k=log-1; k>=0; k-- ){
-    		if( !anc(dp[u][k], v) ){
-      			u = dp[u][k];
-    		}
-  		}
+			if( !anc(dp[u][k], v) ){
+				u = dp[u][k];
+			}
+		}
 
   		return dp[u][0];
 	}
