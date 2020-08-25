@@ -7,9 +7,8 @@
 
 const ll LINF = 0x3f3f3f3f3f3f3f3fll;
 
-class EK{
-	private:
-    struct node{
+struct EK{
+	struct node{
 		int v, r;
 		ll c;
 		node( int _v, int _r, ll _c ){
@@ -19,11 +18,10 @@ class EK{
 	int n;
 	vector< vector<node> > g;
 
-	public:
 	EK( int _n ){
-	    n = _n;
-	    g.resize(n);
-    }
+		n = _n;
+		g.resize(n);
+	}
 
 	void add_edge( int a, int b, ll c ){
 		g[a].push_back(node(b, (int)g[b].size(), c));
