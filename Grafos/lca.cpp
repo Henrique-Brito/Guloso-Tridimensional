@@ -5,8 +5,8 @@
 //  Complexidade
 //    Build - O(n*log(n))
 //    lca - O(log(n))
-//	  dist - O(log(n))
-//	  anc - O(1)
+//    dist - O(log(n))
+//    anc - O(1)
 
 struct Tree{
 
