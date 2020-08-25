@@ -4,53 +4,82 @@
 
 //  Complexidade
 //    Build - O(n*log(n))
-//    Query - O(log(n))
+//    lca - O(log(n))
+//	  dist - O(log(n))
+//	  anc - O(1)
 
-const int LOG = (int)32;
-const int MAX = (int)1e3+10;
+struct Tree{
 
-int n, t=0;
-int in[MAX], out[MAX];
-int dp[MAX][LOG];
-vector<int> g[MAX];
+	int n, t, log;
+	vector<vector<int>> g, dp;
+	vector<int> in, out, dt;
 
-void dfs( int u, int p ){
-  in[u] = t++;
-  for( int e : g[u] ) if( e != p ){
-    dp[e][0] = u;
-    dfs(e, u);
-  }
-  out[u] = t;
-}
+	Tree(){}
 
-void build(){
-  for( int i=0; i<n; i++ ){
-    dp[i][0] = i;
-  }
-  t = 0;
-  dfs(0, 0);
-  for( int k=1; k<LOG; k++ ){
-    for( int i=0; i<n; i++ ){
-      dp[i][k] = dp[dp[i][k-1]][k-1];
-    }
-  }
-}
+	void get_parent( int u=0, int p=0 ){
+		in[u] = t++;
+  		for( int e : g[u] ){
+			if( e == p ) continue;
+    		dp[e][0] = u;
+    		get_parent(e, u);
+  		}
+  		out[u] = t;
+	}
 
-bool anc( int p, int f ){
-  return in[p] <= in[f] and out[f] <= out[p];
-}
+	void get_dt( int u=0, int p=0, int d=0 ){
+		dt[u] = d;
+		for( int e : g[u] ){
+			if( e == p ) continue;
+			get_dt(e, u, d+1);
+		}
+	}
 
-int lca( int u, int v ){
-  if( anc(u, v) ){
-    return u;
-  }
-  if( anc(v, u) ){
-    return v;
-  }
-  for( int k=LOG-1; ~k; k-- ){
-    if( !anc(dp[u][k], v) ){
-      u = dp[u][k];
-    }
-  }
-  return dp[u][0];
-}
+	Tree( int _n, vector<vector<int>> _g ) : n(_n), g(_g){
+
+		t = 0;
+		log = 32;
+		in.resize(n);
+		out.resize(n);
+		dt.resize(n);
+
+		dp = vector<vector<int>>(n, vector<int>(log));
+
+		for( int i=0; i<n; i++ ){
+			dp[i][0] = i;
+		}
+
+		get_parent();
+		get_dt();
+
+		for( int k=1; k<log; k++ ){
+    		for( int i=0; i<n; i++ ){
+      			dp[i][k] = dp[dp[i][k-1]][k-1];
+    		}
+  		}
+	}
+
+	bool anc( int p, int f ){
+  		return in[p] <= in[f] and out[f] <= out[p];
+	}
+
+	int lca( int u, int v ){
+  		if( anc(u, v) ){
+    		return u;
+  		}
+  		if( anc(v, u) ){
+    		return v;
+  		}
+
+  		for( int k=log-1; k>=0; k-- ){
+    		if( !anc(dp[u][k], v) ){
+      			u = dp[u][k];
+    		}
+  		}
+
+  		return dp[u][0];
+	}
+
+	int dist( int a, int b ){
+		return dt[a]+dt[b]-2*dt[lca(a, b)];
+	}
+};
