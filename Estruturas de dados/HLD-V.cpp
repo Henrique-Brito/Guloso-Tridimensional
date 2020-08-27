@@ -10,94 +10,177 @@
 // update_path - O(log^2 (n))
 // query_subtree - O(log(n))
 // update_subtree - O(log(n))
+// lca - O(log(n))
 
-namespace seg {
-	ll seg[4*MAX], lazy[4*MAX];
-	int n, *v;
+struct SegTree{
 
-	ll build(int p=1, int l=0, int r=n-1) {
-		lazy[p] = 0;
-		if (l == r) return seg[p] = v[l];
-		int m = (l+r)/2;
-		return seg[p] = build(2*p, l, m) + build(2*p+1, m+1, r);
+	int n;
+	vector<int> v;
+	vector<ll> lazy, seg;
+
+	SegTree(){}
+
+	ll make_node(int x){
+		return x;
 	}
-	void build(int n2, int* v2) {
-		n = n2, v = v2;
+	ll make_neutro(){
+		return 0;
+	}
+	ll combina(ll a, ll b){
+		return a+b;
+	}
+
+	void build(int at, int l, int r){
+		lazy[at]=0;
+		if( l==r ){
+			seg[at] = make_node(v[l]);
+			return;
+		}
+		int m = (l+r)/2;
+		build(2*at, l, m);
+		build(2*at +1, m+1, r);
+		seg[at] = combina(seg[2*at], seg[2*at +1]);
+	}
+
+	void build(){
+		build(1, 0, n-1);
+	}
+
+	SegTree( int _n, vector<int> _v ) : n(_n), v(_v){
+		lazy.resize(4*n +10);
+		seg.resize(4*n +10);
 		build();
 	}
-	void prop(int p, int l, int r) {
-		seg[p] += lazy[p]*(r-l+1);
-		if (l != r) lazy[2*p] += lazy[p], lazy[2*p+1] += lazy[p];
-		lazy[p] = 0;
-	}
-	ll query(int a, int b, int p=1, int l=0, int r=n-1) {
-		prop(p, l, r);
-		if (a <= l and r <= b) return seg[p];
-		if (b < l or r < a) return 0;
-		int m = (l+r)/2;
-		return query(a, b, 2*p, l, m) + query(a, b, 2*p+1, m+1, r);
-	}
-	ll update(int a, int b, int x, int p=1, int l=0, int r=n-1) {
-		prop(p, l, r);
-		if (a <= l and r <= b) {
-			lazy[p] += x;
-			prop(p, l, r);
-			return seg[p];
+
+	void propaga(int at, int l, int r){
+		seg[at] += lazy[at]*(r-l+1);
+		if(l != r){
+			lazy[2*at] += lazy[at];
+			lazy[2*at+1] += lazy[at];
 		}
-		if (b < l or r < a) return seg[p];
+		lazy[at] = 0;
+	}
+
+	ll query(int ql, int qr, int at, int l, int r){
+		propaga(at, l, r);
+		if( l>r || ql>r || qr<l ){
+			return make_neutro();
+		}
+		if( ql<=l && r<=qr ){
+			return seg[at];
+		}
 		int m = (l+r)/2;
-		return seg[p] = update(a, b, x, 2*p, l, m) +
-			update(a, b, x, 2*p+1, m+1, r);
+		return combina(query(ql, qr, 2*at, l, m), query(ql, qr, 2*at +1, m+1, r));
+	}
+
+	ll query(int ql, int qr){
+		return query(ql, qr, 1, 0, n-1);
+	}
+
+	void update(int ul, int ur, int x, int at, int l, int r){
+		propaga(at, l, r);
+		if( l>r || ul>r || ur<l ){
+			return;
+		}
+		if( ul<=l and r<=ur ){
+			lazy[at] += x;
+			propaga(at, l, r);
+			return;
+		}
+		int m = (l+r)/2;
+		update(ul, ur, x, 2*at, l, m);
+		update(ul, ur, x, 2*at +1, m+1, r);
+		seg[at] = combina(seg[2*at], seg[2*at +1]);
+	}
+
+	void update(int ul, int ur, int x){
+		update(ul, ur, x, 1, 0, n-1);
 	}
 };
 
-namespace hld {
-	vector<int> g[MAX];
-	int in[MAX], out[MAX], sz[MAX];
-	int peso[MAX], pai[MAX];
-	int h[MAX], v[MAX], t;
+struct HLD{
 
-	void build_hld(int k, int p = -1, int f = 1) {
-		v[in[k] = t++] = peso[k]; sz[k] = 1;
-		for (auto& i : g[k]) if (i != p) {
-			pai[i] = k;
-			h[i] = (i == g[k][0] ? h[k] : i);
-			build_hld(i, k, f); sz[k] += sz[i];
+	int n, root, t;
+	vector<vector<int>> g;
+	vector<int> w, sz, pos, parent, head;
+	vector<int> v;
 
-			if (sz[i] > sz[g[k][0]]) swap(i, g[k][0]);
+	SegTree seg;
+
+	HLD(){}
+
+	int get_size( int u, int p=-1 ){
+
+		sz[u] = 1;
+		for( int& e : g[u] ){
+			if( e == p ) continue;
+			sz[u] += get_size(e, u);
+			if( sz[e] > sz[g[u][0]] or g[u][0] == p ) swap(e, g[u][0]);
 		}
-		out[k] = t;
-		if (p*f == -1) build_hld(h[k] = k, -1, t = 0);
+		return sz[u];
 	}
-	void build(int root = 0) {
-		t = 0;
-		build_hld(root);
-		seg::build(t, v);
-	}
-	ll query_path(int a, int b) {
-		if (a == b) return seg::query(in[a], in[a]);
-		if (in[a] < in[b]) swap(a, b);
 
-		if (h[a] == h[b]) return seg::query(in[b], in[a]);
-		return seg::query(in[h[a]], in[a]) + query_path(pai[h[a]], b);
-	}
-	void update_path(int a, int b, int x) {
-		if (a == b) return (void)seg::update(in[a], in[a], x);
-		if (in[a] < in[b]) swap(a, b);
+	void build( int u, int p=-1 ){
 
-		if (h[a] == h[b]) return (void)seg::update(in[b], in[a], x);
-		seg::update(in[h[a]], in[a], x); update_path(pai[h[a]], b, x);
+		pos[u] = t++;
+		v[pos[u]] = w[u];
+
+		for( int e : g[u] ){
+			if( e == p ) continue;
+			parent[e] = u;
+			head[e] = (e == g[u][0] ? head[u] : e);
+			build(e, u);
+		}
 	}
-	ll query_subtree(int a) {
-		if (in[a] == out[a]-1) return seg::query(in[a], in[a]);
-		return seg::query(in[a], out[a]-1);
+
+	HLD(int _n, vector<vector<int>> _g, vector<int> _w) : n(_n), g(_g), w(_w){
+		t=0;
+		root=0;
+		v.resize(n);
+		sz.resize(n);
+		pos.resize(n);
+		parent.resize(n);
+		head.resize(n);
+
+		head[root] = root;
+		get_size(root);
+		build(root);
+
+		seg = SegTree(n, v);
 	}
-	void update_subtree(int a, int x) {
-		if (in[a] == out[a]-1) return (void)seg::update(in[a], in[a], x);
-		seg::update(in[a], out[a]-1, x);
+
+	ll query_path(int a, int b){
+		if( pos[a] < pos[b] ) swap(a, b);
+
+		if( head[a] == head[b] ){
+			return seg.query(pos[b], pos[a]);
+		}
+		return seg.query(pos[head[a]], pos[a]) + query_path(parent[head[a]], b);
 	}
-	int lca(int a, int b) {
-		if (in[a] < in[b]) swap(a, b);
-		return h[a] == h[b] ? b : lca(pai[h[a]], b);
+
+	void update_path(int a, int b, int x){
+		if( pos[a] < pos[b] ) swap(a, b);
+
+		if( head[a] == head[b] ){
+			seg.update(pos[b], pos[a], x);
+			return;
+		}
+		seg.update(pos[head[a]], pos[a], x);
+		update_path(parent[head[a]], b, x);
+	}
+
+	int lca( int a, int b ){
+		if( pos[a] < pos[b] ) swap(a, b);
+		if( head[a] == head[b] ) return b;
+		return lca(parent[head[a]], b);
+	}
+
+	ll query_subtree(int u){
+		return seg.query(pos[u], pos[u]+sz[u]-1);
+	}
+
+	void update_subtree(int u, int x){
+		seg.update(pos[u], pos[u]+sz[u]-1, x);
 	}
 };
+
